@@ -53,7 +53,7 @@ define([
                     queryExpr: "${0}",
                     store: qmsStore,
                     hasDownArrow: false,
-                    title: i18n.gettext("Search in QMS"),
+                    title: i18n.gettext("Search"),
                     maxHeight: 200,
                     style: { width: "100%" }
                 });
@@ -63,7 +63,7 @@ define([
                     title: i18n.gettext("Use options from QMS")
                 });
 
-                this.container.addChild(this.qmsSearch);
+                this.container.addChild(this.qmsSearch, "first");
                 this.container.addChild(this.qmsSettings);
 
                 this.qmsSettings.watch("checked", function (attr, oval, nval) {

@@ -5,7 +5,9 @@ define([
     "dojo/json",
     "ngw-webmap/plugin/_PluginBase",
     "dojo/dom-construct",
-    "ngw-pyramid/i18n!basemap"
+    "ngw-pyramid/i18n!basemap",
+    "openlayers/ol",
+    "../resource/proj4"
 ], function (
     declare,
     array,
@@ -13,7 +15,9 @@ define([
     json,
     _PluginBase,
     domConstruct,
-    i18n
+    i18n,
+    ol,
+    proj4
 ) {
     return declare([_PluginBase], {
 
@@ -25,6 +29,15 @@ define([
                 return bm.enabled;
             });
 
+            ol.proj.setProj4(proj4);
+
+            // Yandex.Maps
+            proj4.defs("EPSG:3395","+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs");
+            ol.proj.get('EPSG:3395').setExtent([-20037508.342789244,
+                                                -20037508.342789244,
+                                                 20037508.342789244,
+                                                 20037508.342789244]);
+
             if (basemaps.length) {
                 settings.basemaps = [];
 
@@ -35,10 +48,11 @@ define([
                     if (!bm.qms) {
                         opts.base.mid = "ngw/openlayers/layer/XYZ";
                         opts.layer.title = bm.display_name;
+                        opts.source.url = bm.url;
                     } else {
                         qms = json.parse(bm.qms);
 
-                        if (qms.epsg !== 3857) {
+                        if (qms.epsg !== 3857 && qms.epsg !== 3395) {
                             console.warn(lang.replace("CRS {epsg} is not supported, {name} layer.", {
                                 epsg: qms.epsg,
                                 name: bm.display_name
@@ -57,12 +71,13 @@ define([
                         };
 
                         if (!qms.y_origin_top) {
-                            lang.replace(opts.source.url, {"y": "{-y}"});
+                            opts.source.url = lang.replace(opts.source.url, {"x": "{x}", "y": "{-y}", "z": "{z}"});
                         }
                     }
 
                     opts.layer.opacity = bm.opacity ? bm.opacity : undefined;
                     opts.layer.visible = (idx == 0) ? true : false;
+                    opts.source.wrapX = false;
 
                     settings.basemaps.push(opts);
                 });

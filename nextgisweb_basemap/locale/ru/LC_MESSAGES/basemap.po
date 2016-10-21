@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nextgisweb_basemap 0.0\n"
 "Report-Msgid-Bugs-To: UNKNOWN\n"
-"POT-Creation-Date: 2016-10-19 00:21+0700\n"
+"POT-Creation-Date: 2016-10-21 14:06+0700\n"
 "PO-Revision-Date: 2016-10-19 00:04+0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -25,8 +25,8 @@ msgid "Basemap"
 msgstr "Подложка"
 
 #: amd/ngw-basemap/LayerWidget.js:56
-msgid "Search in QMS"
-msgstr "Искать в QMS"
+msgid "Search"
+msgstr "Поиск"
 
 #: amd/ngw-basemap/LayerWidget.js:63
 msgid "Use options from QMS"
@@ -59,4 +59,7 @@ msgstr "Включён"
 #: amd/ngw-basemap/template/WebMapWidget.hbs:72
 msgid "Opacity"
 msgstr "Непрозрачность"
+
+#~ msgid "Search in QMS"
+#~ msgstr "Искать в QMS"
 
