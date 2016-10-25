@@ -22,7 +22,7 @@ msgstr ""
 
 #: amd/ngw-basemap/LayerWidget.js:35 model.py:23
 msgid "Basemap"
-msgstr "Подложка"
+msgstr "Подложка веб-карты"
 
 #: amd/ngw-basemap/LayerWidget.js:56
 msgid "Search"
