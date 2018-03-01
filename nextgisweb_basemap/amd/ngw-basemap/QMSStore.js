@@ -22,7 +22,7 @@ define([
                 headers: {
                     "X-Requested-With": null
                 }
-            })
+            });
         },
 
         query: function (query, options) {

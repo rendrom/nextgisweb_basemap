@@ -25,10 +25,6 @@ define([
             var wmplugin = this.display.config.webmapPlugin[this.identity];
             var settings = this.display.clientSettings;
 
-            var basemaps = array.filter(wmplugin.basemaps, function (bm) {
-                return bm.enabled;
-            });
-
             ol.proj.setProj4(proj4);
 
             // Yandex.Maps
@@ -38,16 +34,18 @@ define([
                                                  20037508.342789244,
                                                  20037508.342789244]);
 
-            if (basemaps.length) {
+            if (wmplugin.basemaps.length) {
                 settings.basemaps = [];
 
-                array.forEach(basemaps, function (bm, idx) {
+                array.forEach(wmplugin.basemaps, function (bm, idx) {
                     var opts = { "base": {}, "layer": {}, "source": {} },
                         qms;
 
+                    opts.base.mid = "ngw/openlayers/layer/XYZ";
+                    opts.base.keyname = bm.keyname;
+                    opts.layer.title = bm.display_name;
+
                     if (!bm.qms) {
-                        opts.base.mid = "ngw/openlayers/layer/XYZ";
-                        opts.layer.title = bm.display_name;
                         opts.source.url = bm.url;
                     } else {
                         qms = json.parse(bm.qms);
@@ -60,8 +58,6 @@ define([
                             return;
                         }
                         
-                        opts.base.mid = "ngw/openlayers/layer/XYZ";
-                        opts.layer.title = bm.display_name;
                         opts.source = {
                             "url": qms.url,
                             "minZoom": qms.z_min ? qms.z_min : undefined,
@@ -76,10 +72,12 @@ define([
                     }
 
                     opts.layer.opacity = bm.opacity ? bm.opacity : undefined;
-                    opts.layer.visible = (idx == 0) ? true : false;
+                    opts.layer.visible = (idx === 0) ? true : false;
                     opts.source.wrapX = false;
 
-                    settings.basemaps.push(opts);
+                    if (bm.enabled) {
+                        settings.basemaps.push(opts);
+                    }
                 });
 
                 settings.basemaps.push({
