@@ -87,7 +87,7 @@ define([
                     },
                     "layer": {
                         "title": "None",
-                        "visible": false
+                        "visible": settings.basemaps.length ? false : true
                     },
                     source: {}
                 });
