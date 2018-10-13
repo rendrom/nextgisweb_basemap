@@ -25,10 +25,16 @@ define([
             var wmplugin = this.display.config.webmapPlugin[this.identity];
             var settings = this.display.clientSettings;
 
-            ol.proj.setProj4(proj4);
-
             // Yandex.Maps
             proj4.defs("EPSG:3395","+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs");
+
+            // if ol version < 5.X
+            if (ol.proj.setProj4) {
+                ol.proj.setProj4(proj4);
+            } else {
+                ol.proj.proj4.register(proj4);
+            }
+
             ol.proj.get('EPSG:3395').setExtent([-20037508.342789244,
                                                 -20037508.342789244,
                                                  20037508.342789244,
